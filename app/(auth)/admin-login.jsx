@@ -46,11 +46,11 @@ const AdminLogin = () => {
   };
 
   return (
-    <SafeAreaView className="bg-white h-full">
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView>
-          <View className="w-full justify-center min-h-[80vh] px-4 my-6">
-            <Text className="text-xl text-purple text-semibold mt-10 font-psemibold">
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <View style={{ justifyContent: 'center', minHeight: '80%', paddingHorizontal: 16, marginVertical: 24 }}>
+            <Text style={{ fontSize: 24, color: '#2B286D', fontWeight: '600', marginTop: 40, fontFamily: 'psemibold' }}>
               Admin Login
             </Text>
             <FormField 
@@ -80,14 +80,12 @@ const AdminLogin = () => {
             )}
             <Image 
               source={images.cards}
-              style={{ alignSelf: 'center', width: '68%', height: '11%' }}
+              style={{ alignSelf: 'center', width: '68%', height: '11%', marginTop: 20 }}
               resizeMode="contain"
-              className="mt-7"
             />
-            <Text className="text-sm font-pregular text-black mt-7 text-center font-psemibold">
+            <Text style={{ fontSize: 14, fontFamily: 'pregular', color: 'black', marginTop: 20, textAlign: 'center', fontWeight: '600' }}>
               Bridging Police and Public with Digital Solutions for Sri Lanka
             </Text>
-            <Text>{' '}</Text>
           </View>
         </ScrollView>
       </TouchableWithoutFeedback>

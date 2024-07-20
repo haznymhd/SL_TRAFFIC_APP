@@ -31,7 +31,7 @@ const Home = () => {
           />
           <CustomButton2
             title="ADD TRAFFIC RULES"
-            handlePress={() => router.push('')}
+            handlePress={() => router.push('/add-rules')}
             containerStyles={{ flex: 1, marginLeft: 4 }}
           />
         </View>
