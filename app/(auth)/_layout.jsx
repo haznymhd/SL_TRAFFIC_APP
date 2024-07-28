@@ -27,6 +27,22 @@ const AuthLayout = () => {
       name="add-laws"
       options={{ headerShown: false }}
     />
+      <Stack.Screen 
+      name="traffic-laws"
+      options={{ headerShown: false }}
+    />
+          <Stack.Screen 
+      name="Profile"
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen 
+    name="EmergencyNumbers"
+    options={{ headerShown: false }} />
+
+    <Stack.Screen
+    name='TrafficFines'
+    options={{ headerShown: false }} />
+    
     </Stack>
     
   );

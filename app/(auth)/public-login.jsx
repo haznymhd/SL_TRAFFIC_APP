@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image, Alert } from 'react-native';
+import { View, Text, ScrollView, Image, Alert, ActivityIndicator } from 'react-native';
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { images } from "../../constants";
@@ -6,6 +6,7 @@ import FormField from '../../components/FormField';
 import CustomButton1 from '../../components/CustomButton1';
 import { Link, useRouter } from 'expo-router';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const PublicLogin = () => {
   const [licenseId, setLicenseId] = useState('');
@@ -23,29 +24,36 @@ const PublicLogin = () => {
         return;
       }
 
+      // Clear only the public user token
+      await AsyncStorage.removeItem('publicUserToken');
+
       const { data } = await axios.post(
         "http://192.168.8.111:8080/api/v1/auth/login",
         { licenseId, password }
       );
 
-      Alert.alert(data.message); // Replace this with your actual alert/message
+      // Save the new public user token to AsyncStorage
+      await AsyncStorage.setItem('publicUserToken', data.token);
+
+      Alert.alert(data.message);
       console.log("Login Data==>", { licenseId, password });
       setIsSubmitting(false);
 
       // Redirect to a different page after successful login
-      router.push('/home'); // Change to the actual route you want to redirect to
+      router.push('/home');
     } catch (error) {
-      Alert.alert(error.response?.data?.message || "An error occurred");
+      const errorMessage = error.response?.data?.message || "An error occurred";
+      Alert.alert(errorMessage);
       setIsSubmitting(false);
-      console.log(error);
+      console.error("Login Error: ", errorMessage, error);
     }
   };
 
   return (
-    <SafeAreaView className="bg-white h-full">
+    <SafeAreaView className="flex-1 bg-white">
       <ScrollView>
-        <View className="w-full justify-center min-h-[80vh] px-4 my-6">
-          <Text className="text-xl text-purple text-semibold mt-10 font-psemibold">
+        <View className="justify-center min-h-[80vh] px-4 my-6">
+          <Text className="text-2xl text-purple-700 font-semibold mt-10">
             PUBLIC LOGIN
           </Text>
           <FormField 
@@ -71,10 +79,10 @@ const PublicLogin = () => {
             isLoading={isSubmitting}
           />
           <View className="justify-center pt-5 flex-row gap-2">
-            <Text className="text-lg text-black font-pregular">
+            <Text className="text-lg text-black font-normal">
               Don't have an account?
             </Text>
-            <Link href="/public-register" className="text-lg font-psemibold text-orange mb-5">
+            <Link href="/public-register" className="text-lg font-semibold text-orange-600 mb-5">
               Sign Up
             </Link>
           </View>
@@ -83,7 +91,7 @@ const PublicLogin = () => {
             style={{ alignSelf: 'center', width: '68%', height: '11%' }}
             resizeMode="contain"
           />
-          <Text className="text-sm font-pregular text-black mt-7 text-center font-psemibold">
+          <Text className="text-sm font-normal text-black mt-7 text-center font-semibold">
             Bridging Police and Public with Digital Solutions for Sri Lanka
           </Text>
           <Text>{' '}</Text>

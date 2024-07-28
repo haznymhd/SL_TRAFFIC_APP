@@ -5,7 +5,7 @@ import CustomButton2 from '../../components/CustomButton2';
 import { useRouter } from 'expo-router';
 import { images } from '../../constants'; // Adjust this import based on your initial usage
 
-const Home = () => {
+const adminHome = () => {
   const router = useRouter();
 
   return (
@@ -52,4 +52,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default adminHome;

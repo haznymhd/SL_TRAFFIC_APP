@@ -5,7 +5,7 @@ import CustomButton2 from '../../components/CustomButton2';
 import { useRouter } from 'expo-router';
 import { images } from '../../constants'; // Adjust this import based on your initial usage
 
-const Home = () => {
+const PublicHome = () => {
   const router = useRouter();
 
   return (
@@ -26,25 +26,25 @@ const Home = () => {
           />
           <CustomButton2
             title="TRAFFIC LAWS"
-            handlePress={() => router.push('')}
+            handlePress={() => router.push('/traffic-laws')}
             containerStyles={{ flex: 1, marginLeft: 4 }}
           />
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
           <CustomButton2
             title="EMERGENCY"
-            handlePress={() => router.push('')}
+            handlePress={() => router.push('/EmergencyNumbers')}
             containerStyles={{ flex: 1, marginRight: 4 }}
           />
           <CustomButton2
             title="TRAFFIC FINES"
-            handlePress={() => router.push('')}
+            handlePress={() => router.push('/TrafficFines')}
             containerStyles={{ flex: 1, marginLeft: 4 }}
           />
         </View>
         <CustomButton2
           title="MY PROFILE"
-          handlePress={() => router.push('')}
+          handlePress={() => router.push('/Profile')}
           containerStyles={{ width: '100%', marginTop: 16, marginBottom: 56 }} // Added marginBottom to create a gap
         />
         {images.cards && (
@@ -59,4 +59,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default PublicHome;
