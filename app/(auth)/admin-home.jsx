@@ -37,13 +37,13 @@ const adminHome = () => {
         </View>
         <CustomButton2
           title="SEARCH"
-          handlePress={() => router.push('')}
+          handlePress={() => router.push('/search')}
           containerStyles={{ width: '100%', marginTop: 16, marginBottom: 56 }} // Added marginBottom to create a gap
         />
         {images.cards && (
           <Image 
             source={images.cards}
-            style={{ alignSelf: 'center', width: '68%', height: '80%' }}
+            style={{ alignSelf: 'center', width: '68%', height: '11%' }}
             resizeMode="contain"
           />
         )}

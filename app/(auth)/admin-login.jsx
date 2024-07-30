@@ -25,7 +25,7 @@ const AdminLogin = () => {
       }
 
       const { data } = await axios.post(
-        "http://192.168.8.111:8080/api/v1/auth/admin-login",
+        "http://192.168.8.111:8080/api/v1/admin/admin-login", // Ensure this matches the correct route
         { accessId, password }
       );
 
