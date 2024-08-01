@@ -36,7 +36,7 @@ export default function App() {
                         />
                         <CustomButton
                         title="HOME"
-                        handlePress={() => router.push('/add-laws')}
+                        handlePress={() => router.push('/admin-home')}
                         containerStyles={{ width: '100%', marginTop: 28 }}
                         />
                         <Text className="text-sm font-pregular text-white -100 mt-7 text-center">

@@ -14,7 +14,7 @@ const adminHome = () => {
         <View style={{ marginTop: 0, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
           <CustomButton2
             title="PUT FINES"
-            handlePress={() => router.push('')}
+            handlePress={() => router.push('/Search')}
             containerStyles={{ flex: 1, marginRight: 4 }}
           />
           <CustomButton2
@@ -26,7 +26,7 @@ const adminHome = () => {
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
           <CustomButton2
             title="FINE HISTORY"
-            handlePress={() => router.push('')}
+            handlePress={() => router.push('/FineHistory')}
             containerStyles={{ flex: 1, marginRight: 4 }}
           />
           <CustomButton2
@@ -37,13 +37,18 @@ const adminHome = () => {
         </View>
         <CustomButton2
           title="SEARCH"
-          handlePress={() => router.push('/search')}
+          handlePress={() => router.push('/Search')}
           containerStyles={{ width: '100%', marginTop: 16, marginBottom: 56 }} // Added marginBottom to create a gap
+        />
+                <CustomButton2
+          title="ALL FINES"
+          handlePress={() => router.push('/AllFines')}
+          containerStyles={{ width: '100%', marginTop: -110, marginBottom: 56, marginLeft:190}} // Added marginBottom to create a gap
         />
         {images.cards && (
           <Image 
             source={images.cards}
-            style={{ alignSelf: 'center', width: '68%', height: '11%' }}
+            style={{ alignSelf: 'center', width: '68%', height: '100%' }}
             resizeMode="contain"
           />
         )}

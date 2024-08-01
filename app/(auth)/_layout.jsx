@@ -42,6 +42,20 @@ const AuthLayout = () => {
     <Stack.Screen
     name='TrafficFines'
     options={{ headerShown: false }} />
+
+    <Stack.Screen 
+    name='Search'
+    options={{ headerShown:false }}
+    />
+
+    <Stack.Screen 
+    name='FineHistory'
+    options={{ headerShown:false }}
+    />
+        <Stack.Screen 
+    name='AllFines'
+    options={{ headerShown:false }}
+    />
     
     </Stack>
     
