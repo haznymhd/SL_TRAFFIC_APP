@@ -44,7 +44,7 @@ const TrafficLaws = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
         <View style={{ justifyContent: 'center', paddingHorizontal: 10, marginVertical: 24 }}></View>
-        <Text style={{ fontSize: 24, paddingHorizontal: 10, color: '#2B286D', fontWeight: '600', marginTop: 40, fontFamily: 'psemibold' }}>
+        <Text style={{ fontSize: 24, paddingHorizontal: 10, color: '#2B286D', fontWeight: '600', marginTop: 10, fontFamily: 'psemibold' }}>
             Traffic Laws
           </Text>
           <TextInput 
@@ -85,6 +85,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginRight:20,
     marginLeft:20,
+    backgroundColor: '#2B296D',
+    borderRadius : 20,
+    height:60,
   },
 });
 

@@ -7,6 +7,7 @@ import CustomButton1 from '../../components/CustomButton1';
 import { Link, useRouter } from 'expo-router';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CustomButton3 from '../../components/CustomButton3';
 
 const PublicLogin = () => {
   const [licenseId, setLicenseId] = useState('');
@@ -53,7 +54,7 @@ const PublicLogin = () => {
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView>
         <View className="justify-center min-h-[80vh] px-4 my-6">
-          <Text className="text-2xl text-purple-700 font-semibold mt-10">
+          <Text className="text-2xl text-purple font-semibold mt-10">
             PUBLIC LOGIN
           </Text>
           <FormField 
@@ -72,7 +73,7 @@ const PublicLogin = () => {
             placeHolder="Enter your password"
             secureTextEntry
           />
-          <CustomButton1 
+          <CustomButton3
             title="Log in" 
             handlePress={handleSubmit}
             containerStyles="mt-7"
@@ -88,7 +89,7 @@ const PublicLogin = () => {
           </View>
           <Image 
             source={images.cards}
-            style={{ alignSelf: 'center', width: '68%', height: '11%' }}
+            style={{ alignSelf: 'center', width: '68%', height: '20%' }}
             resizeMode="contain"
           />
           <Text className="text-sm font-normal text-black mt-7 text-center font-semibold">

@@ -1,7 +1,7 @@
 import { TouchableOpacity, Text } from 'react-native';
 import React from 'react';
 
-const CustomButton1 = ({ title, handlePress, containerStyles, textStyles, isLoading }) => {
+const CustomButton3 = ({ title, handlePress, containerStyles, textStyles, isLoading }) => {
   return (
     <TouchableOpacity 
       onPress={handlePress}
@@ -9,7 +9,6 @@ const CustomButton1 = ({ title, handlePress, containerStyles, textStyles, isLoad
       style={[
         { 
           marginTop:10,
-          marginLeft: 130,
           backgroundColor: '#FF8C00', 
           borderRadius: 10, 
           maxHeightHeight: 5, 
@@ -31,4 +30,4 @@ const CustomButton1 = ({ title, handlePress, containerStyles, textStyles, isLoad
   );
 };
 
-export default CustomButton1;
+export default CustomButton3;

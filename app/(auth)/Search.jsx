@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Button, StyleSheet, ActivityIndicator, Alert, FlatList, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, ActivityIndicator, Alert, FlatList, TouchableOpacity, Image, ScrollView } from 'react-native';
 import React, { useState } from 'react';
 import axios from 'axios';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -86,6 +86,7 @@ const Search = () => {
   );
 
   return (
+    <ScrollView>
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Search Public User</Text>
       <TextInput 
@@ -152,6 +153,7 @@ const Search = () => {
         </View>
       )}
     </SafeAreaView>
+    </ScrollView>
   );
 };
 
@@ -265,7 +267,7 @@ const styles = StyleSheet.create({
     marginVertical: 100,
   },
   picker: {
-    height: 50,
+    height: 5,
     width: '100%',
     marginTop: -60,
     marginBottom: 16,

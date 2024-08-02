@@ -141,6 +141,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 16,
     paddingHorizontal: 8,
+    backgroundColor: '#2B296D',
+    borderRadius : 20,
+    height:60,
   },
   fineContainer: {
     padding: 10,

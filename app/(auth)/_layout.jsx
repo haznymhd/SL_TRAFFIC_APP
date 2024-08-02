@@ -52,11 +52,26 @@ const AuthLayout = () => {
     name='FineHistory'
     options={{ headerShown:false }}
     />
-        <Stack.Screen 
+    <Stack.Screen 
+    name='MyFines'
+    options={{ headerShown:false }}
+    />
+    <Stack.Screen 
     name='AllFines'
     options={{ headerShown:false }}
     />
-    
+        <Stack.Screen 
+    name='add-rules'
+    options={{ headerShown:false }}
+    />
+      <Stack.Screen 
+    name='Notifications'
+    options={{ headerShown:false }}
+    />
+    <Stack.Screen 
+    name='Payment'
+    options={{ headerShown:false }}
+    />
     </Stack>
     
   );

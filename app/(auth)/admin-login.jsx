@@ -7,6 +7,7 @@ import CustomButton1 from '../../components/CustomButton1';
 import { useRouter } from 'expo-router';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CustomButton3 from '../../components/CustomButton3';
 
 const AdminLogin = () => {
   const [accessId, setAccessId] = useState('');
@@ -69,7 +70,7 @@ const AdminLogin = () => {
               placeHolder="Enter your password"
               secureTextEntry
             />
-            <CustomButton1 
+            <CustomButton3
               title="Log in" 
               handlePress={handleSubmit}
               containerStyles="mt-7"
@@ -80,7 +81,7 @@ const AdminLogin = () => {
             )}
             <Image 
               source={images.cards}
-              style={{ alignSelf: 'center', width: '68%', height: '11%', marginTop: 20 }}
+              style={{ alignSelf: 'center', width: '68%', height: '20%', marginTop: 40 }}
               resizeMode="contain"
             />
             <Text style={{ fontSize: 14, fontFamily: 'pregular', color: 'black', marginTop: 20, textAlign: 'center', fontWeight: '600' }}>

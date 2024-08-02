@@ -5,6 +5,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { images } from "../constants";
 import CustomButton from "../components/CustomButton";
+import CustomButton1 from "../components/CustomButton1";
+import CustomButton3 from "../components/CustomButton3";
 
 
 export default function App() {
@@ -34,12 +36,12 @@ export default function App() {
                         handlePress={() => router.push('/admin-login')}
                         containerStyles={{ width: '100%', marginTop: 28 }}
                         />
-                        <CustomButton
-                        title="HOME"
-                        handlePress={() => router.push('/admin-home')}
+                        <CustomButton3
+                        title="SOS"
+                        handlePress={() => router.push('/sos')}
                         containerStyles={{ width: '100%', marginTop: 28 }}
                         />
-                        <Text className="text-sm font-pregular text-white -100 mt-7 text-center">
+                        <Text className="text-sm font-pregular text-white -100 mt-20 text-center">
                         Bridging Police and Public with Digital Solutions
                         for  Sri Lanka
                         </Text>

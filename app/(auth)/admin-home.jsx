@@ -1,15 +1,31 @@
-import { View, ScrollView, Image } from 'react-native';
-import React from 'react';
+import { View, ScrollView, Image, TouchableOpacity, Alert, Text, StyleSheet } from 'react-native';
+import React, { useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomButton2 from '../../components/CustomButton2';
 import { useRouter } from 'expo-router';
 import { images } from '../../constants'; // Adjust this import based on your initial usage
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-const adminHome = () => {
+const AdminHome = () => {
   const router = useRouter();
 
+  const handleLogout = async () => {
+    try {
+      await AsyncStorage.removeItem('adminToken');
+      router.replace('/admin-login'); // Clear the stack and navigate to login
+    } catch (error) {
+      Alert.alert('Error', 'An error occurred while logging out');
+    }
+  };
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'white'  }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'flex-end', padding: 16 }}>
+        <TouchableOpacity onPress={handleLogout}>
+          <Icon name="sign-out" size={30} color="black" />
+        </TouchableOpacity>
+      </View>
       <ScrollView contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 16, paddingVertical: 24 }}>
         <View style={{ marginTop: 0, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
           <CustomButton2
@@ -40,7 +56,7 @@ const adminHome = () => {
           handlePress={() => router.push('/Search')}
           containerStyles={{ width: '100%', marginTop: 16, marginBottom: 56 }} // Added marginBottom to create a gap
         />
-                <CustomButton2
+          <CustomButton2
           title="ALL FINES"
           handlePress={() => router.push('/AllFines')}
           containerStyles={{ width: '100%', marginTop: -110, marginBottom: 56, marginLeft:190}} // Added marginBottom to create a gap
@@ -48,7 +64,7 @@ const adminHome = () => {
         {images.cards && (
           <Image 
             source={images.cards}
-            style={{ alignSelf: 'center', width: '68%', height: '100%' }}
+            style={{ alignSelf: 'center', width: '68%', height: '11%' }}
             resizeMode="contain"
           />
         )}
@@ -57,4 +73,23 @@ const adminHome = () => {
   );
 };
 
-export default adminHome;
+const styles = StyleSheet.create({
+  badge: {
+    position: 'absolute',
+    right: -6,
+    top: -6,
+    backgroundColor: 'red',
+    borderRadius: 8,
+    width: 16,
+    height: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  badgeText: {
+    color: 'white',
+    fontSize: 10,
+    fontWeight: 'bold',
+  },
+});
+
+export default AdminHome;

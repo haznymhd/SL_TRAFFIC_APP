@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, FlatList, ActivityIndicator, Alert, TouchableOpacity, TextInput } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import CustomButton1 from '../../components/CustomButton1';
+import CustomButton3 from '../../components/CustomButton3';
+import { useRouter } from 'expo-router';
 
 const MyFines = () => {
   const [fines, setFines] = useState([]);
@@ -12,6 +13,7 @@ const MyFines = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredFines, setFilteredFines] = useState([]);
   const [selectedFine, setSelectedFine] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -61,6 +63,18 @@ const MyFines = () => {
     setSelectedFine(fine);
   };
 
+  const handlePayFine = () => {
+    router.push({
+      pathname: 'Payment',
+      params: { fine: JSON.stringify(selectedFine) }
+    });
+  };
+
+  const handleInquiry = () => {
+    // Implement inquiry functionality here
+    Alert.alert('Inquiry', 'Fine inquiry functionality to be implemented.');
+  };
+
   const renderFine = ({ item }) => (
     <TouchableOpacity onPress={() => handleFineClick(item)}>
       <View style={[styles.fineContainer, item.action === 'Pending' && styles.pendingFine]}>
@@ -75,19 +89,9 @@ const MyFines = () => {
     </TouchableOpacity>
   );
 
-  const handlePayFine = () => {
-    // Implement pay fine functionality here
-    Alert.alert('Payment', 'Fine payment functionality to be implemented.');
-  };
-
-  const handleInquiry = () => {
-    // Implement inquiry functionality here
-    Alert.alert('Inquiry', 'Fine inquiry functionality to be implemented.');
-  };
-
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>My Fines</Text>
+      <Text style={styles.title}>MY FINES</Text>
       <TextInput 
         style={styles.searchInput}
         value={searchQuery}
@@ -110,12 +114,12 @@ const MyFines = () => {
           {selectedFine.fineDetails.fines && selectedFine.fineDetails.fines.map((fine, index) => (
             <Text key={index} style={styles.fineText}>{fine}</Text>
           ))}
-          <CustomButton1 
+          <CustomButton3
             title="Pay Fine" 
             handlePress={handlePayFine}
             containerStyles="mt-7"
           />
-          <CustomButton1 
+          <CustomButton3 
             title="Inquiry" 
             handlePress={handleInquiry}
             containerStyles="mt-7"
@@ -131,18 +135,22 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: 'white',
+    
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
+    color : '#2B286D'
   },
   searchInput: {
-    height: 40,
+    height: 60,
     borderColor: 'gray',
     borderWidth: 1,
     marginBottom: 16,
     paddingHorizontal: 8,
+    backgroundColor: '#2B296D',
+    borderRadius : 20,
   },
   fineContainer: {
     padding: 10,

@@ -6,6 +6,7 @@ import FormField from '../../components/FormField';
 import CustomButton1 from '../../components/CustomButton1';
 import { Link, useRouter } from 'expo-router';
 import axios from 'axios';
+import CustomButton3 from '../../components/CustomButton3';
 
 const PublicRegister = () => {
   const [licenseId, setLicenseId] = useState('');
@@ -78,7 +79,7 @@ const PublicRegister = () => {
             otherStyles="mt-2"
             placeHolder="Enter your address"
           />
-          <CustomButton1 
+          <CustomButton3
             title="Sign Up" 
             handlePress={handleSubmit}
             containerStyles="mt-2"

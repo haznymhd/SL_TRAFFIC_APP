@@ -84,6 +84,9 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     marginTop: 20,
     marginHorizontal: 20,
+    backgroundColor: '#2B296D',
+    borderRadius : 20,
+    height:60,
   },
   finesContainer: {
     paddingHorizontal: 16,

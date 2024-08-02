@@ -16,33 +16,34 @@ const Profile = () => {
     mobileNumber: '',
     sex: '',
     dateOfBirth: '',
-    profileImage: ''
+    profileImage: '',
+    sosNumber: '', // Add this field
   });
   const [isEditing, setIsEditing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchUserData = async () => {
-    try {
-      const token = await AsyncStorage.getItem('publicUserToken');
-      if (!token) {
-        Alert.alert('Error', 'No token found, please log in again.');
-        return;
-      }
-      const response = await axios.get('http://192.168.8.111:8080/api/v1/auth/profile', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      setUserData(response.data.user);
-    } catch (error) {
-      Alert.alert('Error', error.response?.data?.message || "An error occurred while fetching user data");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = await AsyncStorage.getItem('publicUserToken');
+        if (!token) {
+          Alert.alert('Error', 'No token found, please log in again.');
+          return;
+        }
+        const response = await axios.get('http://192.168.8.111:8080/api/v1/auth/profile', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setUserData(response.data.user);
+      } catch (error) {
+        Alert.alert('Error', error.response?.data?.message || "An error occurred while fetching user data");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     fetchUserData();
   }, []);
 
@@ -60,10 +61,13 @@ const Profile = () => {
           Authorization: `Bearer ${token}`
         }
       });
+      await axios.put('http://192.168.8.111:8080/api/v1/auth/update-sos', { sosNumber: userData.sosNumber }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       Alert.alert('Success', 'Profile updated successfully');
       setIsEditing(false);
-      // Re-fetch user data to display updated details
-      fetchUserData();
     } catch (error) {
       Alert.alert('Error', error.response?.data?.message || "An error occurred while updating profile");
     } finally {
@@ -95,16 +99,8 @@ const Profile = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>My Profile</Text>
-        <CustomButton1 
-          title={isEditing ? "Save Changes" : "Edit Profile"} 
-          handlePress={isEditing ? handleSaveChanges : () => setIsEditing(true)}
-          isLoading={isSubmitting}
-          containerStyles={styles.editButton}
-        />
-      </View>
       <ScrollView contentContainerStyle={styles.content}>
+        <Text style={styles.title}>My Profile</Text>
         <Image 
           source={userData.profileImage ? { uri: userData.profileImage } : images.profile}
           style={styles.profileImage}
@@ -178,9 +174,23 @@ const Profile = () => {
                 placeholder="Date of Birth"
               />
             </View>
+            <View style={styles.fieldContainer}>
+              <Text style={styles.label}>SOS Number</Text>
+              <TextInput 
+                style={styles.input}
+                value={userData.sosNumber}
+                onChangeText={(text) => setUserData({ ...userData, sosNumber: text })}
+                placeholder="SOS Number"
+              />
+            </View>
           </>
         )}
       </ScrollView>
+      <CustomButton1 
+        title={isEditing ? "Save Changes" : "Edit Profile"} 
+        handlePress={isEditing ? handleSaveChanges : () => setIsEditing(true)}
+        isLoading={isSubmitting}
+      />
     </SafeAreaView>
   );
 };
@@ -190,25 +200,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+  content: {
     paddingHorizontal: 16,
-    paddingTop: 16,
+    marginVertical: 24,
+    alignItems: 'center',
   },
   title: {
     fontSize: 24,
     color: '#2B286D',
     fontWeight: '600',
-  },
-  editButton: {
-    alignSelf: 'flex-end',
-  },
-  content: {
-    paddingHorizontal: 16,
-    marginVertical: 24,
-    alignItems: 'center',
+    marginBottom: 20,
   },
   profileImage: {
     width: 100,
@@ -231,6 +232,10 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     padding: 12,
     borderRadius: 8,
+    backgroundColor: '#2B296D',
+    borderRadius : 20,
+    height:60,
+    color :'white'
   },
   loadingContainer: {
     flex: 1,

@@ -9,7 +9,6 @@ const CustomButton1 = ({ title, handlePress, containerStyles, textStyles, isLoad
       style={[
         { 
           marginTop:10,
-          marginLeft: 130,
           backgroundColor: '#FF8C00', 
           borderRadius: 10, 
           maxHeightHeight: 5, 
