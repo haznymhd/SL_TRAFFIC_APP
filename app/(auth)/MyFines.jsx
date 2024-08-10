@@ -4,7 +4,12 @@ import axios from 'axios';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomButton3 from '../../components/CustomButton3';
-import { useRouter } from 'expo-router';
+import { router } from 'expo-router';
+
+const extractAmount = (occasion) => {
+  const match = occasion.match(/Rs\s*([\d,]+)/);
+  return match ? match[1] : '0';
+};
 
 const MyFines = () => {
   const [fines, setFines] = useState([]);
@@ -13,7 +18,6 @@ const MyFines = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredFines, setFilteredFines] = useState([]);
   const [selectedFine, setSelectedFine] = useState(null);
-  const router = useRouter();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -65,13 +69,12 @@ const MyFines = () => {
 
   const handlePayFine = () => {
     router.push({
-      pathname: 'Payment',
-      params: { fine: JSON.stringify(selectedFine) }
+      pathname: '/PaymentScreen',
+      params: { fineAmount: extractAmount(selectedFine.fineDetails.occasion), referenceNumber: selectedFine.referenceNumber }
     });
   };
 
   const handleInquiry = () => {
-    // Implement inquiry functionality here
     Alert.alert('Inquiry', 'Fine inquiry functionality to be implemented.');
   };
 
@@ -81,9 +84,7 @@ const MyFines = () => {
         <Text style={styles.fineTitle}>Reference Number: {item.referenceNumber}</Text>
         <Text>License ID: {item.licenseId}</Text>
         <Text>Fine Details: {item.fineDetails.title}</Text>
-        {item.fineDetails.fines && item.fineDetails.fines.map((fine, index) => (
-          <Text key={index}>- {fine}</Text>
-        ))}
+        <Text>Occasion: {item.fineDetails.occasion}</Text>
         <Text>Action: {item.action}</Text>
       </View>
     </TouchableOpacity>
@@ -111,9 +112,7 @@ const MyFines = () => {
         <View style={styles.actionsContainer}>
           <Text style={styles.selectedFineTitle}>Selected Fine</Text>
           <Text style={styles.fineTitle}>{selectedFine.fineDetails.title}</Text>
-          {selectedFine.fineDetails.fines && selectedFine.fineDetails.fines.map((fine, index) => (
-            <Text key={index} style={styles.fineText}>{fine}</Text>
-          ))}
+          <Text style={styles.fineText}>Occasion: {selectedFine.fineDetails.occasion}</Text>
           <CustomButton3
             title="Pay Fine" 
             handlePress={handlePayFine}
@@ -135,13 +134,12 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: 'white',
-    
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
-    color : '#2B286D'
+    color: '#2B286D',
   },
   searchInput: {
     height: 60,
@@ -150,7 +148,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     paddingHorizontal: 8,
     backgroundColor: '#2B296D',
-    borderRadius : 20,
+    borderRadius: 20,
   },
   fineContainer: {
     padding: 10,

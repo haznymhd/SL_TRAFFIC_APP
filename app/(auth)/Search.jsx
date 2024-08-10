@@ -20,6 +20,7 @@ const trafficFines = [
   { title: "Driving between 30 percent to 50 percent more the maximum speed limit", fines: ["Rs 10,000 - Rs 15,000", "Spot fine of Rs 10,000"] },
   { title: "Driving more than 50 percent of the maximum speed limit", fines: ["Rs 15,000 - Rs 25,000", "Spot fine of Rs 15,000"] },
   { title: "Overtaking from the left side / breaching road rules", fines: ["Rs 2500 - Rs 3500", "Rs 3500 - Rs 5000", "Rs 5000 - Rs 25,000", "Spot fine of Rs 2000"] },
+  // Add more fines as needed
 ];
 
 const Search = () => {
@@ -27,6 +28,7 @@ const Search = () => {
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFine, setSelectedFine] = useState(null);
+  const [selectedOccasion, setSelectedOccasion] = useState(null); // To select a specific occasion
   const [showOptions, setShowOptions] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [action, setAction] = useState('Pending'); // Default action
@@ -45,17 +47,26 @@ const Search = () => {
 
   const handleFineSelect = (fine) => {
     setSelectedFine(fine);
+    setSelectedOccasion(null); // Reset selected occasion
     setShowOptions(false);
   };
 
   const handlePutFine = async () => {
+    if (!selectedFine || !selectedOccasion) {
+      Alert.alert('Error', 'Please select a fine and an occasion before submitting.');
+      return;
+    }
+
     try {
       setIsSubmitting(true);
       const adminToken = await AsyncStorage.getItem('token');
       const { data } = await axios.post('http://192.168.8.111:8080/api/v1/fines/add', {
         licenseId: userData.licenseId,
-        fineDetails: selectedFine,
-        action, // Include the action in the request
+        fineDetails: {
+          title: selectedFine.title,
+          occasion: selectedOccasion,
+        },
+        action,
       }, {
         headers: {
           Authorization: `Bearer ${adminToken}`,
@@ -67,6 +78,7 @@ const Search = () => {
       setLicenseId('');
       setUserData(null);
       setSelectedFine(null);
+      setSelectedOccasion(null);
       setAction('Pending');
       setIsSubmitting(false);
     } catch (error) {
@@ -87,72 +99,82 @@ const Search = () => {
 
   return (
     <ScrollView>
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Search Public User</Text>
-      <TextInput 
-        style={styles.input}
-        value={licenseId}
-        onChangeText={setLicenseId}
-        placeholder="Enter License ID"
-      />
-      <Button title="Search" onPress={handleSearch} />
-      {isLoading && <ActivityIndicator size="large" color="#0000ff" />}
-      {userData && (
-        <View>
-          <View style={styles.userDataContainer}>
-            <Text style={styles.userDataText}>License ID: {userData.licenseId}</Text>
-            <Text style={styles.userDataText}>Email: {userData.email}</Text>
-            <Text style={styles.userDataText}>Address: {userData.address}</Text>
-            <Text style={styles.userDataText}>Mobile Number: {userData.mobileNumber}</Text>
-            <Text style={styles.userDataText}>Sex: {userData.sex}</Text>
-            <Text style={styles.userDataText}>Date of Birth: {userData.dateOfBirth}</Text>
-            <Text style={styles.userDataText}>Blood Group: {userData.bloodGroup}</Text>
-            {/* Add more fields as needed */}
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.title}>Search Public User</Text>
+        <TextInput 
+          style={styles.input}
+          value={licenseId}
+          onChangeText={setLicenseId}
+          placeholder="Enter License ID"
+        />
+        <Button title="Search" onPress={handleSearch} />
+        {isLoading && <ActivityIndicator size="large" color="#0000ff" />}
+        {userData && (
+          <View>
+            <View style={styles.userDataContainer}>
+              <Text style={styles.userDataText}>License ID: {userData.licenseId}</Text>
+              <Text style={styles.userDataText}>Email: {userData.email}</Text>
+              <Text style={styles.userDataText}>Address: {userData.address}</Text>
+              <Text style={styles.userDataText}>Mobile Number: {userData.mobileNumber}</Text>
+              <Text style={styles.userDataText}>Sex: {userData.sex}</Text>
+              <Text style={styles.userDataText}>Date of Birth: {userData.dateOfBirth}</Text>
+              <Text style={styles.userDataText}>Blood Group: {userData.bloodGroup}</Text>
+            </View>
+            <View style={styles.selectBox}>
+              <TouchableOpacity style={styles.selectBoxCurrent} onPress={() => setShowOptions(!showOptions)}>
+                <Text style={styles.selectBoxValue}>{selectedFine ? selectedFine.title : "Select a fine"}</Text>
+                <Image source={{uri: "http://cdn.onlinewebfonts.com/svg/img_295694.svg"}} style={styles.selectBoxIcon} />
+              </TouchableOpacity>
+              {showOptions && (
+                <FlatList 
+                  data={trafficFines}
+                  renderItem={renderFine}
+                  keyExtractor={(item, index) => index.toString()}
+                  style={styles.fineList}
+                />
+              )}
+            </View>
           </View>
-          <View style={styles.selectBox}>
-            <TouchableOpacity style={styles.selectBoxCurrent} onPress={() => setShowOptions(!showOptions)}>
-              <Text style={styles.selectBoxValue}>{selectedFine ? selectedFine.title : "Select a fine"}</Text>
-              <Image source={{uri: "http://cdn.onlinewebfonts.com/svg/img_295694.svg"}} style={styles.selectBoxIcon} />
-            </TouchableOpacity>
-            {showOptions && (
-              <FlatList 
-                data={trafficFines}
-                renderItem={renderFine}
-                keyExtractor={(item, index) => index.toString()}
-                style={styles.fineList}
-              />
-            )}
+        )}
+        {selectedFine && (
+          <View>
+            <View style={styles.selectedFineDetailsContainer}>
+              <Text style={styles.selectedFineTitle}>Selected Fine</Text>
+              <Text style={styles.fineTitle}>{selectedFine.title}</Text>
+              <Picker
+                selectedValue={selectedOccasion}
+                style={styles.picker}
+                onValueChange={(itemValue) => setSelectedOccasion(itemValue)}
+              >
+                <Picker.Item label="Select an occasion" value={null} />
+                {selectedFine.fines.map((fine, index) => (
+                  <Picker.Item key={index} label={fine} value={fine} />
+                ))}
+              </Picker>
+              {selectedOccasion && (
+                <Text style={styles.selectedOccasionText}>Selected Amount: {selectedOccasion.split(' - ')[1]}</Text>
+              )}
+            </View>
+
+            <Picker
+              selectedValue={action}
+              style={styles.picker}
+              onValueChange={(itemValue) => setAction(itemValue)}
+            >
+              <Picker.Item label="Pending" value="Pending" />
+              <Picker.Item label="Resolved" value="Resolved" />
+              <Picker.Item label="Rejected" value="Rejected" />
+            </Picker>
+            <View style={styles.gap} />
+            <CustomButton1 
+              title="Put Fine" 
+              handlePress={handlePutFine}
+              containerStyles="mt-7"  
+              isLoading={isSubmitting}
+            />
           </View>
-        </View>
-      )}
-      {selectedFine && (
-        <View>
-          <View style={styles.selectedFineDetailsContainer}>
-            <Text style={styles.selectedFineTitle}>Selected Fine</Text>
-            <Text style={styles.fineTitle}>{selectedFine.title}</Text>
-            {selectedFine.fines.map((fine, index) => (
-              <Text key={index} style={styles.fineText}>{fine}</Text>
-            ))}
-          </View>
-          <Picker
-            selectedValue={action}
-            style={styles.picker}
-            onValueChange={(itemValue) => setAction(itemValue)}
-          >
-            <Picker.Item label="Pending" value="Pending" />
-            <Picker.Item label="Resolved" value="Resolved" />
-            <Picker.Item label="Rejected" value="Rejected" />
-          </Picker>
-          <View style={styles.gap} />
-          <CustomButton1 
-            title="Put Fine" 
-            handlePress={handlePutFine}
-            containerStyles="mt-7"
-            isLoading={isSubmitting}
-          />
-        </View>
-      )}
-    </SafeAreaView>
+        )}
+      </SafeAreaView>
     </ScrollView>
   );
 };
@@ -246,11 +268,8 @@ const styles = StyleSheet.create({
   selectedFineTitle: {
     color: '#007700',
   },
-  fineText: {
-    fontSize: 16,
-  },
   selectedFineDetailsContainer: {
-    marginTop: 20,
+    marginTop: 10,
     padding: 20,
     backgroundColor: '#e9e9e9',
     borderRadius: 10,
@@ -260,17 +279,19 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10,
   },
-  fineText: {
-    fontSize: 16,
+  selectedOccasionText: {
+    fontSize: 18,
+    color: 'green',
+    marginTop: 10,
   },
   gap: {
     marginVertical: 100,
   },
   picker: {
-    height: 5,
+    height: 150,
     width: '100%',
-    marginTop: -60,
-    marginBottom: 16,
+    marginBottom: 1,
+    marginTop: 50,
   },
 });
 

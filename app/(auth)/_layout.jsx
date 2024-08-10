@@ -68,8 +68,12 @@ const AuthLayout = () => {
     name='Notifications'
     options={{ headerShown:false }}
     />
-    <Stack.Screen 
-    name='Payment'
+          <Stack.Screen 
+    name='PaymentScreen'
+    options={{ headerShown:false }}
+    />
+          <Stack.Screen 
+    name='ReceiptScreen'
     options={{ headerShown:false }}
     />
     </Stack>

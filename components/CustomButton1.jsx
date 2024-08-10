@@ -8,7 +8,7 @@ const CustomButton1 = ({ title, handlePress, containerStyles, textStyles, isLoad
       activeOpacity={0.7}
       style={[
         { 
-          marginTop:10,
+          marginTop:-150,
           marginLeft: 130,
           backgroundColor: '#FF8C00', 
           borderRadius: 10, 
