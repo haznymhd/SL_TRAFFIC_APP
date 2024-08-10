@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Alert, SafeAreaView, TextInput, ScrollView, Tou
 import { CardField } from '@stripe/stripe-react-native';
 import CustomButton1 from '../../components/CustomButton1';
 import { useRouter } from 'expo-router';
+import CustomButton5 from '../../components/CustomButton5';
 
 const PaymentScreen = () => {
   const fineName = "Driving without a license"; // Replace with dynamic fine name if available
@@ -88,7 +89,7 @@ const PaymentScreen = () => {
               }}
             />
 
-            <CustomButton1
+                        <CustomButton5
               title="Pay Now"
               handlePress={handlePayPress}
               isLoading={isSubmitting}
@@ -110,18 +111,21 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+    marginLeft:10,
     color: '#2B296D'
   },
   label: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#2B296D',
+    color: '#000',
     marginTop: 10,
+    marginLeft:10,
   },
   fineDetails: {
     fontSize: 18,
-    color: '#2B296D',
+    color: '#000',
     marginBottom: 10,
+    marginLeft:10,
   },
   cardContainer: {
     marginBottom: 30,
